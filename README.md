@@ -9,7 +9,7 @@ Este proyecto contiene un script por lotes de Windows (.bat) que intenta desacti
 
 Su ejecución puede dejar el equipo vulnerable, provocar errores graves en Windows y requerir una reparación o reinstalación del sistema.
 
-@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+////////////////////////////////////////////////////////////////////////////////////////////////
 ------------------------------------------------------------------------------------------------
                          ⚠️ ATENCIÓN ⚠️
 
@@ -19,7 +19,7 @@ TheEndforAntivirus.lnk.
 PRECAUCIÓN: este proyecto puede desactivar protecciones de seguridad y
 eliminar archivos importantes de Windows. No lo ejecuten en su equipo principal.
 
-@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+////////////////////////////////////////////////////////////////////////////////////////////////
 ------------------------------------------------------------------------------------------------
 
 
