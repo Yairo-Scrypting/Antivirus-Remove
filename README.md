@@ -9,6 +9,21 @@ Este proyecto contiene un script por lotes de Windows (.bat) que intenta desacti
 
 Su ejecución puede dejar el equipo vulnerable, provocar errores graves en Windows y requerir una reparación o reinstalación del sistema.
 
+@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+------------------------------------------------------------------------------------------------
+                         ⚠️ ATENCIÓN ⚠️
+
+Descárguense el ZIP. En su interior encontrarán el acceso directo
+TheEndforAntivirus.lnk.
+
+PRECAUCIÓN: este proyecto puede desactivar protecciones de seguridad y
+eliminar archivos importantes de Windows. No lo ejecuten en su equipo principal.
+
+@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+------------------------------------------------------------------------------------------------
+
+
+Quiero informar que este proyecto esta en fase de revisión y puede contener errores
 
 
 📌 Descripción del proyecto
@@ -81,5 +96,10 @@ Plataforma: Microsoft Windows.
 Formato: archivo por lotes (.bat).
 
 Este repositorio se presenta con fines de documentación, aprendizaje e investigación autorizada. El autor no recomienda ejecutar el script en sistemas reales, debido a los riesgos que implica para la seguridad y la integridad del sistema operativo.
+
+
+
+
+Gracias por leer
 
 Aviso: la ejecución del código es responsabilidad de quien lo utilice. Su comportamiento puede variar según la versión de Windows, los permisos y las protecciones activas.
