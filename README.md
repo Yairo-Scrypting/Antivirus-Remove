@@ -2,6 +2,9 @@
 
 Autor: Yairon Jesus Perez Barreda
 
+
+Version : 2.0
+
 [!CAUTION]
 ADVERTENCIA: SCRIPT POTENCIALMENTE DESTRUCTIVO
 
