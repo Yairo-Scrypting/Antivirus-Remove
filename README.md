@@ -12,12 +12,16 @@ Este proyecto contiene un script por lotes de Windows (.bat) que intenta desacti
 
 Su ejecución puede dejar el equipo vulnerable, provocar errores graves en Windows y requerir una reparación o reinstalación del sistema.
 
+---------------------------------------------------------------
+ejecutar prioritariamente el .bat con permisos de administrador
+---------------------------------------------------------------
+
 ////////////////////////////////////////////////////////////////////////////////////////////////
 ------------------------------------------------------------------------------------------------
                          ⚠️ ATENCIÓN ⚠️
 
 Descárguense el ZIP. En su interior encontrarán el acceso directo
-TheEndforAntivirus.lnk.
+TheEndforAntivirus.lnk.  El .Ink puede no ejecutarse, ejecutar prioritariamente el .bat con permisos de administrador
 
 PRECAUCIÓN: este proyecto puede desactivar protecciones de seguridad y
 eliminar archivos importantes de Windows. No lo ejecuten en su equipo principal.
