@@ -42,35 +42,127 @@ El código permite estudiar el funcionamiento de comandos administrativos de Win
 Importante: no es una herramienta convencional de mantenimiento ni un desinstalador seguro de antivirus.
 
 🔍 Funcionalidades y comportamiento
-1. Configuración inicial
-@echo off: oculta los comandos durante la ejecución.
-setlocal: establece un entorno local para las variables.
-endlocal: finaliza dicho entorno.
+1. Configuración inicial y ocultación de errores
+El script comienza con:
+
+@echo off: evita mostrar normalmente los comandos ejecutados.
+setlocal: establece un entorno local para las variables de CMD.
+>nul 2>&1: redirige la salida estándar y los mensajes de error para que no aparezcan en pantalla.
+endlocal: finaliza el entorno local al terminar.
+Riesgo: la redirección de errores dificulta comprobar qué operaciones han fallado y cuáles se han completado.
+
 2. Modificación del firewall
+Utiliza comandos de netsh para intentar desactivar el firewall de Windows en los perfiles de red de dominio, privado y público.
 
-Utiliza netsh para intentar desactivar el firewall de Windows en distintos perfiles de red.
+También incluye una instrucción de la sintaxis antigua de netsh firewall.
 
-Riesgo: reduce la protección de las conexiones de red y puede aumentar la exposición a accesos no autorizados.
+Riesgo: puede reducir la protección de las conexiones de red y aumentar la exposición a accesos no autorizados.
 
-3. Modificación y eliminación de archivos del sistema
+El resultado depende de la versión de Windows, los permisos y las políticas de seguridad aplicadas.
 
-Emplea attrib para modificar atributos de archivos y directorios, e intenta eliminar componentes críticos, como ntfs.sys, netsh.exe, Dism.exe, sfc.exe y chkdsk.exe.
+3. Eliminación de configuraciones de arranque seguro
+Intenta eliminar las claves Minimal y Network de la configuración de SafeBoot del Registro de Windows.
 
-Riesgo: puede afectar al sistema de archivos, las herramientas de diagnóstico y la estabilidad general de Windows.
+Estas claves están relacionadas con las configuraciones de inicio en modo seguro.
 
-4. Detención de servicios de seguridad
+Riesgo: si las operaciones tienen éxito, pueden perjudicar las opciones de recuperación y dificultar la resolución de problemas del sistema.
 
-Intenta detener servicios relacionados con Microsoft Defender, el Centro de seguridad y Windows Update.
+4. Modificación de permisos del sistema
+Emplea icacls para intentar conceder permisos de control total al grupo Users sobre C:\Windows\System32 y C:\Windows.
 
-Riesgo: puede reducir la protección antimalware y dificultar la instalación de actualizaciones de seguridad.
+También utiliza attrib para intentar retirar atributos de sistema y solo lectura en archivos y directorios.
 
-5. Eliminación de directorios
+Riesgo: estos cambios pueden debilitar la protección de archivos esenciales y permitir modificaciones no deseadas de componentes de Windows.
 
-Intenta eliminar carpetas relacionadas con los registros de eventos, controladores, tareas programadas y componentes de Windows Defender.
+La aplicación efectiva de los cambios depende de los permisos existentes, las protecciones del sistema y los errores que se produzcan.
 
-También incluye directorios asociados con antivirus de terceros, como Avast, AVG, Bitdefender, Malwarebytes, ESET, Kaspersky, Norton, McAfee, Avira, Panda Dome, Trend Micro, Sophos, F-Secure y Webroot.
+5. Eliminación de archivos críticos
+El script intenta eliminar diversos archivos del sistema, entre ellos:
 
-Riesgo: puede dañar instalaciones, eliminar información necesaria para el diagnóstico y dejar componentes de seguridad incompletos.
+ntfs.sys, relacionado con el sistema de archivos NTFS.
+netsh.exe, herramienta de configuración de red.
+Dism.exe, herramienta de mantenimiento de imágenes de Windows.
+sfc.exe, herramienta de comprobación de archivos del sistema.
+chkdsk.exe, herramienta de comprobación de discos.
+WMIC.exe, herramienta de administración de Windows presente en determinadas versiones.
+smartscreen.exe, componente asociado a las protecciones de SmartScreen.
+SecurityHealthSystray.exe, componente relacionado con las notificaciones de seguridad.
+Riesgo: la eliminación de estos archivos puede inutilizar herramientas administrativas, afectar al sistema de archivos y dificultar el diagnóstico y la reparación de Windows.
+
+Que el script incluya estas instrucciones no garantiza que Windows permita eliminar los archivos protegidos.
+
+6. Intento de detener servicios de seguridad
+Utiliza net stop para intentar detener servicios identificados como:
+
+WinDefend, asociado a Microsoft Defender Antivirus.
+security center, nombre utilizado en el intento de detener el servicio del Centro de seguridad.
+sharedaccess, relacionado con la funcionalidad de uso compartido de conexión a Internet.
+wuauserv, asociado a Windows Update.
+SDRSVC, relacionado con las copias de seguridad de Windows en las versiones que incluyen ese servicio.
+Riesgo: puede reducir la protección antimalware, interferir con las actualizaciones o afectar a otras funciones del sistema.
+
+Los nombres de los servicios y la posibilidad de detenerlos varían según la versión de Windows y las protecciones activas.
+
+7. Eliminación de componentes de Windows Defender
+Intenta eliminar directorios y archivos relacionados con:
+
+Windows Defender.
+Windows Defender Advanced Threat Protection.
+Datos, análisis y definiciones de Microsoft Defender.
+Componentes de Windows Security.
+Tareas programadas relacionadas con Windows Defender.
+También intenta eliminar registros de eventos y el directorio de controladores de Windows.
+
+Riesgo: puede perjudicar la protección antimalware, eliminar información útil para el diagnóstico y provocar fallos graves en el sistema operativo.
+
+La eliminación de registros puede dificultar la investigación posterior de incidentes.
+
+8. Eliminación de directorios de antivirus de terceros
+El código contiene bloques identificados mediante comentarios para distintos fabricantes.
+
+
+Fabricante	Directorios mencionados en el script
+Avast	Avast Software
+AVG	AVG
+Bitdefender	Bitdefender y Bitdefender Agent
+Malwarebytes	Malwarebytes
+ESET	ESET
+Kaspersky	Kaspersky Lab
+Norton	Norton y Norton Security
+McAfee	McAfee y Endpoint Security
+Avira	Avira
+Panda Dome	Panda Security
+Trend Micro	Trend Micro
+Sophos	Sophos
+F-Secure	F-Secure
+Webroot	Webroot y WRData
+Para estos directorios utiliza rmdir /s /q, una instrucción que intenta eliminar recursivamente carpetas y su contenido sin solicitar confirmación.
+
+Riesgo: puede corromper instalaciones de seguridad, eliminar datos necesarios y dejar programas parcialmente instalados o en estados inconsistentes.
+
+Las rutas enumeradas no representan necesariamente todas las ubicaciones utilizadas por cada fabricante. Tampoco significa que todos esos productos estén instalados o que las operaciones vayan a tener éxito.
+
+Este método no sustituye a los desinstaladores oficiales.
+
+9. Modificación de UAC mediante el Registro
+El script intenta establecer el valor EnableLUA en 0 dentro de la clave de políticas del sistema.
+
+Este valor está relacionado con el Control de cuentas de usuario (UAC).
+
+Riesgo: modificar esta configuración puede debilitar mecanismos de protección y alterar el comportamiento de seguridad de Windows. El cambio puede requerir reiniciar el equipo para surtir efecto y su comportamiento depende de la configuración y la versión del sistema.
+
+10. Intento de eliminar TrustedInstaller
+Incluye una operación que intenta eliminar:
+
+C:\Windows\servicing\TrustedInstaller.exe
+
+Este archivo está relacionado con el servicio de instalación de módulos de Windows, utilizado para mantener y reparar componentes del sistema.
+
+Riesgo: dañar este componente puede perjudicar las operaciones de mantenimiento, instalación de actualizaciones y reparación de Windows.
+
+
+12. Reinicio forzado
+Al final utiliza shutdown con opciones para reiniciar inmediatamente y forzar el cierre de aplicaciones.
 
 
 🚨 Advertencias y precauciones
